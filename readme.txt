@@ -40,15 +40,17 @@ chmod +x ./archmini.sh
 
 Скрипт kde.sh запускать с правами root  !!!!!!!!!!!!!
 
-тдт обычным пользователем sudo ./kde.sh
+если от обычного пользователя  тогда    
+
+$ sudo ./kde.sh
 
 Делаем файл исполняемым
 
-chmod +x ./kde.sh
+# chmod +x ./kde.sh
 
 Запускаем установку
 
-./kde.sh
+# ./kde.sh
 
 Скрипт установит рабочий стол KDE Plasma Блютуз Timeshift
 
