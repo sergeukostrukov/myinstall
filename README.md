@@ -1,1 +1,1 @@
-# myarch
+# myinstall
