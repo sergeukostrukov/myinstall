@@ -11,10 +11,10 @@ echo '
 
 
 
-                                    ### ###  #  ###   #  ### ###   ##   #
-                                    #  #  #  #  #  #  #  #  #  #  #  #  #
-                                    #  #  #  #  #  #  #  #  #  #  ####  #
-                                    #  #  #  #  #  #  #  #  #  #  #  #  ###
+                                    ##№# ###    #№  #№##    #№  #№##  ###   #№#     #№
+                                    #№  #№  #№  #№  #№  #№  #№  #№  #№  #№  #№  #№  #№
+                                    #№  #№  #№  #№  #№  #№  #№  #№  #№  #№  ##№##№  #№
+                                    #№  #№  #№  #№  #№  #№  #№  #№  #№  #№  #№  #№  ###№
 '
 sleep 2
 #clear
@@ -51,8 +51,8 @@ echo '
             
                  
 '
-PS3="Выберите тип соединения 1 или 2  если 3 - Оставить как есть  4 - Прервать установку :"
-select choice in "WiFi" "Lan" "Продолжить" "Выйти из установки"; do
+PS3="Выберите тип соединения 1 или 2  если 3 - не настраивать  4 - Прервать установку :"
+select choice in "WiFi" "Lan" "Продолжить ненастраивая" "Выйти из установки"; do
 case $REPLY in
     1) mywifi;break;;
     2) systemctl restart dhcpcd ;dhcpcd;break;;
@@ -168,6 +168,7 @@ echo '
 '
 read -p "Username: " username
 while true; do
+  echo
   read -s -p "Password: " userpassword
   echo
   read -s -p "Password (again): " userpassword2
@@ -199,6 +200,7 @@ echo "--------------------------------------------------------------
 
 "
 PS3="Выберите действие :"
+echo
 select choice in "Продолжить с этими параметрами" "Выйти из установки"; do
 case $REPLY in
     1) break;;
@@ -293,7 +295,6 @@ arch-chroot /mnt /bin/bash -c "echo 'wap-priority = 100' >> /etc/systemd/zram-ge
 arch-chroot /mnt /bin/bash -c "echo 's-type = swap' >> /etc/systemd/zram-generator.conf"
 }
 #################################################################################
-slep 5
 clear
 echo '
 
@@ -325,19 +326,10 @@ kernel='pacstrap -i /mnt base base-devel linux-zen linux-zen-headers linux-firmw
 
 Uefi="grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=$name --no-nvram --removable /dev/$namedisk"
 
-#graphc_drivers='pacstrap -i /mnt mesa mesa-demos xf86-video-intel lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader network-manager-applet libva-intel-driver lib32-libva-intel-driver xorg-server xorg-xinit xorg-drivers --noconfirm'
-#update='pacman -Syy'
-##desktop='pacstrap -i /mnt mate mate-extra dconf-editor  gvfs pcmanfm gvfs-mtp  --noconfirm'
-##desktop='pacstrap -i /mnt cinnamon gnome-terminal parcellite firefox gvfs gvfs-mtp pcmanfm --noconfirm'
-#desktop='pacstrap -i /mnt xorg xorg-server xdg-user-dirs cups xdg-utils firefox  pcmanfm lxqt breeze-icons gvfs gvfs-mtp --noconfirm'
-#desktop='pacstrap -i /mnt plasma-meta plasma-wayland-session kde-applications --noconfirm'
-#desktop='pacstrap -i /mnt gnome gnome-extra gnome-shell'
-#bluez_='pacstrap -i /mnt bluez bluez-utils pipewire-alsa pipewire-jack pipewire-pulse pipewire-zeroconf'
-#bluez_='pacstrap -i /mnt bluez bluez-utils pulseaudio-bluetooth blueman'
 bluez_='pacstrap -i /mnt bluez bluez-utils'
 dispmanager='pacstrap -i /mnt sddm --noconfirm'
 displaymanager='systemctl enable sddm --force'
-#---------------------------------Pacman--------------------------------|
+#------------------------Настройка Pacman--------------------------------|
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 sed -i s/'#ParallelDownloads = 5'/'ParallelDownloads = 10'/g /etc/pacman.conf
 sed -i s/'#VerbosePkgLists'/'VerbosePkgLists'/g /etc/pacman.conf
@@ -354,10 +346,9 @@ echo '
 ─▒▒▒▒▒▒▒──█████▄────── ╚═╝     ╚═╝  ╚═╝ ╚═════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
 ─▒─▒─▒─▒───▀████▀─────────────────────────────────────────────────────────────────|
 
-                       идет настройка скачивания пакетов
+                       идет настройка зеркал скачивания пакетов
 '
-#sleep 1
-#clear
+
 pacman -Syy reflector --noconfirm
 #reflector --sort rate -l 20 --save /etc/pacman.d/mirrorlist
 #reflector --verbose -c 'Russia' -l 10 -p https --sort rate --save /etc/pacman.d/mirrorlist
@@ -367,7 +358,6 @@ pacman -Syy archlinux-keyring --noconfirm
 ${kernel}
 #------------------------------------------------------------------------
 genfstab -U /mnt >> /mnt/etc/fstab
-######echo'/swap/swapfile none swap defaults 0 0' >> /mnt/etc/fstab
 $swap_fstab
 arch-chroot /mnt /bin/bash -c "ln -sf /usr/share/zoneinfo/$region /etc/localtime"
 arch-chroot /mnt /bin/bash -c "hwclock --systohc"
@@ -395,14 +385,9 @@ arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
 arch-chroot /mnt /bin/bash -c "${Uefi}"
 arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 #---------------------------------------------------------------------
-#${graphc_drivers}
-#${desktop}
-#${bluez_}
-#${dispmanager}
-#arch-chroot /mnt /bin/bash -c "${displaymanager}"
+
 arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
-#arch-chroot /mnt /bin/bash -c "systemctl enable bluetooth"
-#arch-chroot /mnt /bin/bash -c "systemctl enable cups"
+
 ##############################################################################################
 #________________________ZRAM_________________________________________________
 clear
