@@ -331,7 +331,7 @@ echo '
       /@log                                   /@log       var/log
       /@pkg                                   /@pkg       var/cache/pacman/pkg
       /@.snapshots                            /@tmp
-      /@tmp                              Будет предложено создать
+      /@tmp                              Будет предложено 
       /@swap   swapfile 8g               создать SWOP на ZRAM
 
 '
