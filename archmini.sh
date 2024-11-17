@@ -372,7 +372,7 @@ echo '
 
                        идет настройка зеркал скачивания пакетов
 '
-
+pacman -Syy archlinux-keyring --noconfirm
 pacman -Syy reflector --noconfirm
 #reflector --sort rate -l 20 --save /etc/pacman.d/mirrorlist
 #reflector --verbose -c 'Russia' -l 10 -p https --sort rate --save /etc/pacman.d/mirrorlist
