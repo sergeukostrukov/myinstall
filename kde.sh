@@ -17,7 +17,8 @@ pacman -S xf86-video-vesa --noconfirm
 pacman -S plasma-meta --noconfirm
 pacman -S plasma-wayland-session --noconfirm 
 pacman -S kde-applications --noconfirm
-pacman -S plasma --noconfirm
+#pacman -S plasma --noconfirm
+pacman -S flatpak --noconfirm
 pacman -S sddm --noconfirm
 pacman -S bluez bluez-utils pulseaudio-bluetooth blueman
 #pacman -S bluez bluez-utils pipewire-alsa pipewire-jack pipewire-pulse pipewire-zeroconf # --noconfirm
